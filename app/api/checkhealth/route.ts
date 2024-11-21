@@ -7,9 +7,9 @@ export async function GET(req: NextRequest) {
   })
 }
 
-// export async function POST(req: NextRequest) {
-//   return NextResponse.json({
-//     status: 200,
-//     server: 'running'
-//   })
-// }
+export async function POST(req: NextRequest) {
+  return NextResponse.json({
+    status: 200,
+    server: 'running'
+  })
+}
