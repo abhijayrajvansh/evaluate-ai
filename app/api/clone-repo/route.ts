@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // Sanitize and resolve target directory
     const targetDirectory = targetDir
       ? path.resolve(process.cwd(), targetDir)
-      : path.resolve(process.cwd(), 'cloned-repo');
+      : path.resolve(process.cwd(), 'agent-canvas');
 
     // Ensure the target directory exists
     await fs.mkdir(targetDirectory, { recursive: true });
