@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // step 1 of OCA: create a virtual env space, sanitize and resolve target directory
     const targetDirectory = targetDir
       ? path.resolve(process.cwd(), targetDir)
-      : path.resolve(process.cwd(), 'analysis-board');
+      : path.resolve(process.cwd(), './analysis-board');
 
     // this is for ensuring the target directory exists
     await fs.mkdir(targetDirectory, { recursive: true });
