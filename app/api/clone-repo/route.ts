@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     // execute git clone with better error handling
     try {
-      const { stdout, stderr } = await execAsync(`git clone ${repoUrl} ${targetDirectory}`);
+      const { stderr } = await execAsync(`git clone ${repoUrl} ${targetDirectory}`);
 
       if (stderr) {
         console.warn('clone process started:', stderr);
@@ -47,11 +47,11 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       );
     } catch (cloneError: any) {
-      console.error('Repository clone failed:', cloneError);
+      console.error('repo clone failed:', cloneError);
       
       return NextResponse.json(
         { 
-          error: 'Failed to clone repository.', 
+          error: 'failed to clone repo', 
           details: cloneError.message 
         }, 
         { status: 500 }
@@ -59,10 +59,10 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error('unexpected error:', err);
     
     return NextResponse.json(
-      { error: 'Invalid request body or unexpected error.' }, 
+      { error: 'invalid request body or unexpected error.' }, 
       { status: 400 }
     );
   }
