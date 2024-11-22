@@ -23,27 +23,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Sanitize and resolve target directory
+    // step 1 of OCA: create a virtual env space, sanitize and resolve target directory
     const targetDirectory = targetDir
       ? path.resolve(process.cwd(), targetDir)
-      : path.resolve(process.cwd(), 'agent-canvas');
+      : path.resolve(process.cwd(), 'analysis-board');
 
-    // Ensure the target directory exists
+    // this is for ensuring the target directory exists
     await fs.mkdir(targetDirectory, { recursive: true });
 
-    // Execute git clone with better error handling
+    // execute git clone with better error handling
     try {
       const { stdout, stderr } = await execAsync(`git clone ${repoUrl} ${targetDirectory}`);
 
       if (stderr) {
-        console.warn('Clone process warning:', stderr);
+        console.warn('clone process started:', stderr);
       }
 
       return NextResponse.json(
         { 
-          message: 'Repository cloned successfully.', 
+          message: 'repo cloned successfully!', 
           directory: targetDirectory,
-          output: stdout.trim()
         }, 
         { status: 200 }
       );
