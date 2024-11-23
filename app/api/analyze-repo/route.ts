@@ -29,9 +29,16 @@ export async function POST(request: NextRequest) {
     
     // p1: analyze code quality and style consistency
     try {
+      // step 1 - locate the target directory in this case or by default it's analysis-board repo
+      // step 2 - ab sabse pehle eslint ko replace karenge because some rules might have been turned off
+      // step 3 - previous lock-file.json (yarn or pnpm) ko delete karke, sirf eslint ko install karenge
+      // step 4 - eslint ko execute karenge and record the output
+      
       const eslintPath = path.resolve(process.cwd(), './node_modules/.bin/eslint');
       const { stdout: eslintOutput } = await execAsync(`${eslintPath} ${analysisDir}`);
+      
       analysisResults.codeQuality = `ESLint analysis complete:\n${eslintOutput}`;
+    
     } catch (err) {
       analysisResults.codeQuality = 'Error running ESLint. Ensure dependencies are installed.';
     }
