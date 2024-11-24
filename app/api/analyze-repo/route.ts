@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     // check if the repository exists or not
     try {
       await fs.access(analysisDir);
-      console.log(`analysis-board repository found!`)
+      console.log(`\nanalysis-board repository found!`)
     } catch (err) {
       return NextResponse.json(
         { error: `analysis-board repository not found :(` },
@@ -26,24 +26,37 @@ export async function POST(request: NextRequest) {
     
     
     const analysisResults: Record<string, any> = {};
+
+    const repoPath = './analysis-board'
     
     // p1: analyze code quality and style consistency
     try {
-      // step 1 - locate the target directory in this case or by default it's analysis-board repo
-      // step 2 - ab sabse pehle eslint ko replace karenge because some rules might have been turned off
-      // step 3 - previous lock-file.json (yarn or pnpm) ko delete karke, sirf eslint ko install karenge
-      // step 4 - eslint ko execute karenge and record the output
-      
-      const eslintPath = path.resolve(process.cwd(), './node_modules/.bin/eslint');
-      const { stdout: eslintOutput } = await execAsync(`${eslintPath} ${analysisDir}`);
-      
-      analysisResults.codeQuality = `ESLint analysis complete:\n${eslintOutput}`;
-    
+      // Step 1: Install ESLint in the repository
+      await execAsync(`pnpm i`, { cwd: repoPath });
+
+      // Step 2: Run ESLint in the repository
+      // const eslintPath = path.resolve(repoPath, './node_modules/.bin/eslint');
+
+      console.log(`\nexecuting eslint...`)
+      const { stdout: eslintOutput } = await execAsync('pnpm run lint', { cwd: './analysis-board' });
+
+      // const { stdout: eslintOutput } = await execAsync(`pnpm run lint`, { cwd: repoPath });
+
+      analysisResults.codeQuality = {
+        message: 'ESLint analysis complete.',
+        output: eslintOutput,
+      };
+
+
     } catch (err) {
-      analysisResults.codeQuality = 'Error running ESLint. Ensure dependencies are installed.';
+      const error = err as Error;
+      analysisResults.codeQuality = {
+        message: 'Error running ESLint. Ensure the repository has valid JavaScript/TypeScript files.',
+        error: error.message,
+      };
     }
-    
-    return NextResponse.json({ status: 200, analysisResults })
+
+    return NextResponse.json({ analysis: analysisResults }, { status: 200 });
     
     // p2: analyze commit messages
     try {
@@ -102,6 +115,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ analysis: analysisResults }, { status: 200 });
+    
     
   } catch (err) {
     console.error('Unexpected error during analysis:', err);
