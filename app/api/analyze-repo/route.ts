@@ -26,32 +26,36 @@ export async function POST(request: NextRequest) {
     
     
     const analysisResults: Record<string, any> = {};
-
-    const repoPath = './analysis-board'
     
     // p1: analyze code quality and style consistency
     try {
-      // Step 1: Install ESLint in the repository
-      await execAsync(`pnpm i`, { cwd: repoPath });
+      // analyzing directory contents
+      console.log('\ndirectory contents:', await fs.readdir(analysisDir));
 
-      // Step 2: Run ESLint in the repository
-      // const eslintPath = path.resolve(repoPath, './node_modules/.bin/eslint');
+      // removing node_modules, pnpm-lock.yaml, and .next
+      console.log(`\nremoving node_modules, pnpm-lock.yaml, and .next...`);
+      await execAsync(`rm -rf ./node_modules && rm -rf ./pnpm-lock.yaml && rm -rf ./.next`, { cwd: analysisDir });
 
-      console.log(`\nexecuting eslint...`)
-      const { stdout: eslintOutput } = await execAsync('pnpm run lint', { cwd: './analysis-board' });
+      // installing dependencies
+      console.log(`\ninstalling dependencies in ${analysisDir}...`);
+      await execAsync(`npm install`, { cwd: analysisDir });
 
-      // const { stdout: eslintOutput } = await execAsync(`pnpm run lint`, { cwd: repoPath });
-
+      // executing ESLint
+      console.log(`\nExecuting ESLint in ${analysisDir}...`);
+      const eslintCommand = 'npm run lint';
+      console.log('ESLint Command:', eslintCommand);
+      
+      const { stdout: eslintOutput } = await execAsync(eslintCommand, { cwd: analysisDir });
+      
       analysisResults.codeQuality = {
         message: 'ESLint analysis complete.',
         output: eslintOutput,
       };
 
-
     } catch (err) {
       const error = err as Error;
       analysisResults.codeQuality = {
-        message: 'Error running ESLint. Ensure the repository has valid JavaScript/TypeScript files.',
+        message: 'ESLint analysis complete.',
         error: error.message,
       };
     }
