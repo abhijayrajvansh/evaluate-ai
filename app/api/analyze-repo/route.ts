@@ -29,33 +29,38 @@ export async function POST(request: NextRequest) {
     
     // p1: analyze code quality and style consistency
     try {
-      // analyzing directory contents
-      console.log('\ndirectory contents:', await fs.readdir(analysisDir));
+      // analyzing directory contents and target repo
+      console.log('\ndirectory contents found:', await fs.readdir(analysisDir));
 
       // removing node_modules, pnpm-lock.yaml, and .next
-      console.log(`\nremoving node_modules, pnpm-lock.yaml, and .next...`);
+      console.log(`\ncleaning cache: node_modules and lock files...`);
       await execAsync(`rm -rf ./node_modules && rm -rf ./pnpm-lock.yaml && rm -rf ./.next`, { cwd: analysisDir });
 
       // installing dependencies
-      console.log(`\ninstalling dependencies in ${analysisDir}...`);
+      console.log(`\ninstalling dependencies...`);
       await execAsync(`npm install`, { cwd: analysisDir });
 
+      // updating eslint guide
+      console.log('\nupdating lintrc and removing suppressed rules...');
+      await execAsync(`rm -rf .eslintrc.json && curl 'https://raw.githubusercontent.com/abhijayrajvansh/github-agent/refs/heads/main/scripts/eslint-checker.json' >> .eslintrc.json`, { cwd: analysisDir });
+
       // executing eslint
-      console.log(`\nExecuting ESLint in ${analysisDir}...`);
       const eslintCommand = 'npm run lint';
-      console.log('ESLint Command:', eslintCommand);
+      console.log('\nanalyzing repository...');
       
       const { stdout: eslintOutput } = await execAsync(eslintCommand, { cwd: analysisDir });
-      
+
+      console.log('\nanalysis complete!\n')
       analysisResults.codeQuality = {
-        message: 'ESLint analysis complete.',
+        message: 'analysis complete!',
         output: eslintOutput,
       };
 
     } catch (err) {
       const error = err as Error;
+      console.log('\nanalysis complete!\n')
       analysisResults.codeQuality = {
-        message: 'ESLint analysis complete.',
+        message: 'analysis complete!',
         output: error.message,
       };
     }
@@ -65,7 +70,7 @@ export async function POST(request: NextRequest) {
       const { stdout: gitLog } = await execAsync(`git -C ${analysisDir} log --pretty=format:'%s'`);
       const commits = gitLog.split('\n');
       const wellWrittenCommits = commits.filter(commit =>
-        /^[a-z]+(\([a-z]+\))?: .+/i.test(commit) // eg: "feat (component): added new feature"
+        /^[a-z]+(\([a-z]+\))?: .+/i.test(commit) // eg: "feat (component!): added new feature"
       );
       analysisResults.commitMessages = {
         totalCommits: commits.length,
@@ -75,8 +80,6 @@ export async function POST(request: NextRequest) {
     } catch (err) {
       analysisResults.commitMessages = 'Error analyzing commit messages.';
     }
-
-    return NextResponse.json({ analysis: analysisResults }, { status: 200 });
 
     // p3: analyze project structure and organization
     try {
@@ -90,6 +93,7 @@ export async function POST(request: NextRequest) {
       analysisResults.projectStructure = 'Error analyzing project structure.';
     }
 
+    
     // p4: analyze README and documentation quality
     try {
       const readmePath = path.join(analysisDir, 'README.md');
@@ -99,23 +103,27 @@ export async function POST(request: NextRequest) {
         content: readmeContent.slice(0, 500), // Show first 500 characters
       };
     } catch (err) {
-      analysisResults.readme = { exists: false, message: 'README.md not found or inaccessible.' };
+      analysisResults.documentation = { exists: false, message: 'README.md not found or inaccessible.' };
     }
 
     // p5: analyze problem-solving approach and algorithms
     try {
       const sourceFiles = await fs.readdir(analysisDir);
       const jsFiles = sourceFiles.filter(file => file.endsWith('.js') || file.endsWith('.ts'));
+      
       const algorithmComplexity = [];
+
       for (const file of jsFiles) {
         const filePath = path.join(analysisDir, file);
         const content = await fs.readFile(filePath, 'utf-8');
         const lineCount = content.split('\n').length;
         algorithmComplexity.push({ file, lines: lineCount });
       }
-      analysisResults.problemSolving = algorithmComplexity;
+      
+      analysisResults.problemSolvingApproach = algorithmComplexity;
+
     } catch (err) {
-      analysisResults.problemSolving = 'Error analyzing algorithms.';
+      analysisResults.problemSolvingApproach = 'error analyzing algorithms.';
     }
 
     return NextResponse.json({ analysis: analysisResults }, { status: 200 });
