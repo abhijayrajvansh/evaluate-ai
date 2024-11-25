@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       console.log(`\ninstalling dependencies in ${analysisDir}...`);
       await execAsync(`npm install`, { cwd: analysisDir });
 
-      // executing ESLint
+      // executing eslint
       console.log(`\nExecuting ESLint in ${analysisDir}...`);
       const eslintCommand = 'npm run lint';
       console.log('ESLint Command:', eslintCommand);
@@ -56,11 +56,9 @@ export async function POST(request: NextRequest) {
       const error = err as Error;
       analysisResults.codeQuality = {
         message: 'ESLint analysis complete.',
-        error: error.message,
+        output: error.message,
       };
     }
-
-    return NextResponse.json({ analysis: analysisResults }, { status: 200 });
     
     // p2: analyze commit messages
     try {
@@ -77,6 +75,8 @@ export async function POST(request: NextRequest) {
     } catch (err) {
       analysisResults.commitMessages = 'Error analyzing commit messages.';
     }
+
+    return NextResponse.json({ analysis: analysisResults }, { status: 200 });
 
     // p3: analyze project structure and organization
     try {
