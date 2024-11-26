@@ -73,9 +73,8 @@ export async function POST(request: NextRequest) {
       
       const { stdout: eslintOutput } = await execAsync(eslintCommand, { cwd: analysisDir });
 
-      console.log('\nanalysis complete!\n')
       analysisResults.codeQuality = {
-        message: 'analysis complete!',
+        message: 'analysis complete, no errors found!',
         output: eslintOutput,
       };
 
@@ -96,11 +95,15 @@ export async function POST(request: NextRequest) {
       const wellWrittenCommits = commits.filter(commit =>
         /^[a-z]+(\([a-z]+\))?: .+/i.test(commit) // eg: "feat (component!): added new feature"
       );
+      
       analysisResults.commitMessages = {
         totalCommits: commits.length,
         wellWrittenCommits: wellWrittenCommits.length,
         exampleCommits: wellWrittenCommits.slice(0, 5),
       };
+
+      console.log('\nanalyzing commit messages...');
+
     } catch (err) {
       const error = err as Error;
       console.log('\nerror analyzing commit messages:', error.message);
@@ -110,11 +113,15 @@ export async function POST(request: NextRequest) {
     // p3: analyze project structure and organization
     try {
       const files = await fs.readdir(analysisDir, { withFileTypes: true });
+      
       const structure = files.map(file => ({
         name: file.name,
         type: file.isDirectory() ? 'directory' : 'file',
       }));
+      
+      console.log('\nanalyzing project structure...');
       analysisResults.projectStructure = structure;
+    
     } catch (err) {
       const error = err as Error;
       console.log('\nerror analyzing project structure:', error.message);
@@ -126,10 +133,14 @@ export async function POST(request: NextRequest) {
     try {
       const readmePath = path.join(analysisDir, 'README.md');
       const readmeContent = await fs.readFile(readmePath, 'utf-8');
+      
       analysisResults.readme = {
         exists: true,
         content: readmeContent.slice(0, 500), // Show first 500 characters
       };
+
+      console.log('\nanalyzing documentation...');
+
     } catch (err) {
       const error = err as Error;
       console.log('\nerror analyzing readme:', error.message);
@@ -141,6 +152,7 @@ export async function POST(request: NextRequest) {
       const sourceFiles = await fs.readdir(analysisDir);
       const jsFiles = sourceFiles.filter(file => file.endsWith('.js') || file.endsWith('.ts'));
       
+      console.log('\nanalyzing algorithms & cyclomatic complexity...');
       const algorithmComplexity = [];
 
       for (const file of jsFiles) {
@@ -150,6 +162,7 @@ export async function POST(request: NextRequest) {
         algorithmComplexity.push({ file, lines: lineCount });
       }
       
+      // architecture could be improved, ref: https://app.clickup.com/37481784/v/dc/13qv9r-4196/13qv9r-2536
       analysisResults.problemSolvingApproach = algorithmComplexity;
 
     } catch (err) {
@@ -158,8 +171,8 @@ export async function POST(request: NextRequest) {
       analysisResults.problemSolvingApproach = 'error analyzing algorithms.';
     }
 
+    console.log('\nmetadata creation complete!');
     return NextResponse.json({ analysis: analysisResults }, { status: 200 });
-    
     
   } catch (err) {
     const error = err as Error;
