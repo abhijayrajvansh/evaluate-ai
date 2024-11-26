@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
@@ -25,7 +25,15 @@ const formSchema = z.object({
 });
 
 export function RepositoryAnalyzer() {
-  const [analysis, setAnalysis] = useState<any>(null);
+  interface Analysis {
+    totalFiles: number;
+    contributors: number;
+    branches: number;
+    qualityMetrics: { name: string; value: number }[];
+    styleIssues: { severity: string; title: string; description: string }[];
+  }
+
+  const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -155,17 +163,17 @@ export function RepositoryAnalyzer() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {analysis.styleIssues.map((issue: any, index: number) => (
+                    {analysis.styleIssues.map((issue, index) => (
                     <Alert key={index} variant={issue.severity === "error" ? "destructive" : "default"}>
                       {issue.severity === "error" ? (
-                        <AlertTriangle className="h-4 w-4" />
+                      <AlertTriangle className="h-4 w-4" />
                       ) : (
-                        <CheckCircle className="h-4 w-4" />
+                      <CheckCircle className="h-4 w-4" />
                       )}
                       <AlertTitle>{issue.title}</AlertTitle>
                       <AlertDescription>{issue.description}</AlertDescription>
                     </Alert>
-                  ))}
+                    ))}
                 </div>
               </CardContent>
             </Card>
