@@ -6,6 +6,28 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
+type AnalysisResults = {
+  codeQuality?: {
+    message: string;
+    output: string;
+  };
+  commitMessages?: {
+    totalCommits: number;
+    wellWrittenCommits: number;
+    exampleCommits: string[];
+  } | string;
+  projectStructure?: { name: string; type: string }[] | string;
+  readme?: {
+    exists: boolean;
+    content?: string;
+  };
+  documentation?: {
+    exists: boolean;
+    message: string;
+  };
+  problemSolvingApproach?: { file: string; lines: number }[] | string;
+};
+
 export async function POST(request: NextRequest) {
   try {
     let { repoName } = await request.json();
@@ -26,7 +48,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const analysisResults: Record<string, any> = {};
+    const analysisResults: AnalysisResults = {};
     
     // p1: analyze code quality and style consistency
     try {
