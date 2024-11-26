@@ -18,12 +18,13 @@ export async function POST(request: NextRequest) {
       await fs.access(analysisDir);
       console.log(`\nanalysis-board repository found!`)
     } catch (err) {
+      const error = err as Error;
+      console.log('\nanalysis-board repository not found :(', error.message)
       return NextResponse.json(
         { error: `analysis-board repository not found :(` },
         { status: 404 }
       );
     }
-    
     
     const analysisResults: Record<string, any> = {};
     
@@ -58,7 +59,8 @@ export async function POST(request: NextRequest) {
 
     } catch (err) {
       const error = err as Error;
-      console.log('\nanalysis complete!\n')
+      console.log('\nanalysis complete!\nError:', error.message)
+
       analysisResults.codeQuality = {
         message: 'analysis complete!',
         output: error.message,
@@ -78,6 +80,8 @@ export async function POST(request: NextRequest) {
         exampleCommits: wellWrittenCommits.slice(0, 5),
       };
     } catch (err) {
+      const error = err as Error;
+      console.log('\nerror analyzing commit messages:', error.message);
       analysisResults.commitMessages = 'Error analyzing commit messages.';
     }
 
@@ -90,6 +94,8 @@ export async function POST(request: NextRequest) {
       }));
       analysisResults.projectStructure = structure;
     } catch (err) {
+      const error = err as Error;
+      console.log('\nerror analyzing project structure:', error.message);
       analysisResults.projectStructure = 'Error analyzing project structure.';
     }
 
@@ -103,6 +109,8 @@ export async function POST(request: NextRequest) {
         content: readmeContent.slice(0, 500), // Show first 500 characters
       };
     } catch (err) {
+      const error = err as Error;
+      console.log('\nerror analyzing readme:', error.message);
       analysisResults.documentation = { exists: false, message: 'README.md not found or inaccessible.' };
     }
 
@@ -123,6 +131,8 @@ export async function POST(request: NextRequest) {
       analysisResults.problemSolvingApproach = algorithmComplexity;
 
     } catch (err) {
+      const error = err as Error;
+      console.log('\nerror analyzing algorithms:', error.message);
       analysisResults.problemSolvingApproach = 'error analyzing algorithms.';
     }
 
@@ -130,7 +140,8 @@ export async function POST(request: NextRequest) {
     
     
   } catch (err) {
-    console.error('Unexpected error during analysis:', err);
+    const error = err as Error;
+    console.error('Unexpected error during analysis:', error.message);
     return NextResponse.json(
       { error: 'Unexpected error occurred during analysis.' },
       { status: 500 }
