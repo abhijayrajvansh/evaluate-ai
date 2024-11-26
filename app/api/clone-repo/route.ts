@@ -46,13 +46,14 @@ export async function POST(request: NextRequest) {
         }, 
         { status: 200 }
       );
-    } catch (cloneError: any) {
-      console.error('repo clone failed:', cloneError);
+    } catch (err) {
+      const error = err as Error;
+      console.error('repo clone failed:', error.message);
       
       return NextResponse.json(
         { 
           error: 'failed to clone repo', 
-          details: cloneError.message 
+          details: error.message 
         }, 
         { status: 500 }
       );
