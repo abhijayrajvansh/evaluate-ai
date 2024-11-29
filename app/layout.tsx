@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "github agent",
+  title: "Evaluate AI",
   description: "developed by abhijay rajvansh",
 };
 

@@ -56,13 +56,13 @@ const components: { title: string; href: string; description: string }[] = [
 export default function CustomNavigationMenu() {
   return (
     <div className="flex items-center justify-between container mx-auto p-4">
-      <div>
-        <h3 className="text-lg">evaluate.ai</h3>
+      <div className="cursor-pointer p-3">
+        <h3 className="text-xl">evaluate.ai</h3>
       </div>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="text-base">Getting started</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
@@ -96,7 +96,7 @@ export default function CustomNavigationMenu() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="text-base">Components</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 {components.map((component) => (
@@ -114,22 +114,22 @@ export default function CustomNavigationMenu() {
           <NavigationMenuItem>
             <Link href="/pricing" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Pricing
+                <span className="text-base">Pricing</span>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <Link href="/docs" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Documentation
+                <span className="text-base">Documentation</span>
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
         <Button variant="outline" className="mr-5 ml-5">
-          Sign In
+          Sign Up
         </Button>
-        <Button className="font-bold">Login</Button>
+        <Button className="font-semibold">Login</Button>
       </NavigationMenu>
     </div>
   );

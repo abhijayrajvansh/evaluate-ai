@@ -19,7 +19,7 @@ const HeroSection = () => {
           </Button>
           <Button className="mt-10">Try for Free</Button>
           <p className="text-sm mt-2 text-black/70">
-            free credits, no credit card required.
+            free credits available, no credit card required.
           </p>
         </div>
       </section>
