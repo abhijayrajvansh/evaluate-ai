@@ -70,3 +70,37 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+@layer components {
+  .wrapper {
+    @apply container mx-auto lg:flex flex-col items-center justify-center w-full px-4 hidden
+  }
+}
+
+
+/* debugging border classes */
+@layer components {
+  .bred {
+    @apply border-2 border-red-500
+  }
+  .bgreen {
+    @apply border-2 border-green-500
+  }
+  .bblue {
+    @apply border-2 border-blue-500
+  }
+  .byellow {
+    @apply border-2 border-yellow-500
+  }
+  .bpurple {
+    @apply border-2 border-purple-500
+  }
+  .bblack {
+    @apply border-2 border-black
+  }
+  .bwhite {
+    @apply border-2 border-white
+  }
+}
+
