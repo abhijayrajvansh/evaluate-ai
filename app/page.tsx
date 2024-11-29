@@ -1,12 +1,8 @@
-import { RepositoryAnalyzer } from "@/components/repository-analyzer";
+import Home from "@/components/pages/Home";
 import React from "react";
 
 const page = () => {
-  return (
-    <div className="container mx-auto">
-      <RepositoryAnalyzer />
-    </div>
-  );
+  return <Home />;
 };
 
 export default page;
