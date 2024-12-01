@@ -11,7 +11,7 @@ const Docs = () => {
         <Button asChild variant={'link'} className="mt-7 text-lg">
           <Link href={"/"}><MoveLeft />return back</Link>
         </Button>
-      </div>
+        </div>
     </div>
   );
 };
