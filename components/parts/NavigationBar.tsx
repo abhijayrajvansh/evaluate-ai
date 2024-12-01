@@ -117,12 +117,22 @@ export default function CustomNavigationMenu() {
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
-        <Button asChild variant="outline" className="mr-5 ml-5">
-          <Link href={'/signup'}>Sign Up</Link>
-        </Button>
-        <Button asChild className="font-semibold">
-          <Link href={'/login'}>Login</Link>
-        </Button>
+
+        {/* auth options: login and signup */}
+        {false ? (
+          <>
+            <Button asChild variant="outline" className="mx-5">
+              <Link href={"/signup"}>Sign Up</Link>
+            </Button>
+            <Button asChild className="font-semibold">
+              <Link href={"/login"}>Login</Link>
+            </Button>
+          </>
+        ) : (
+          <Button asChild className="font-semibold mx-5">
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </Button>
+        )}
       </NavigationMenu>
     </div>
   );
