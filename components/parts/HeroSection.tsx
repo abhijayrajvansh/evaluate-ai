@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -14,10 +15,12 @@ const HeroSection = () => {
             rank <br />
             candidates and identify the best using our ai agent.
           </p>
-          <Button variant={"outline"} className="mr-3">
-            Read Docs
+          <Button asChild variant={"outline"} className="mr-3">
+            <Link href={"/docs"}>Read Docs</Link>
           </Button>
-          <Button className="mt-10">Try for Free</Button>
+          <Button asChild className="mt-10">
+            <Link href={"/signup"}>Try for Free</Link>
+          </Button>
           <p className="text-sm mt-2 text-black/70">
             free credits available, no credit card required.
           </p>
