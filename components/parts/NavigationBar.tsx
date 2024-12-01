@@ -117,10 +117,12 @@ export default function CustomNavigationMenu() {
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
-        <Button variant="outline" className="mr-5 ml-5">
-          Sign Up
+        <Button asChild variant="outline" className="mr-5 ml-5">
+          <Link href={'/signup'}>Sign Up</Link>
         </Button>
-        <Button className="font-semibold">Login</Button>
+        <Button asChild className="font-semibold">
+          <Link href={'/login'}>Login</Link>
+        </Button>
       </NavigationMenu>
     </div>
   );
