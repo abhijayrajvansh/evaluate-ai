@@ -78,7 +78,7 @@ export default function CustomNavigationMenu() {
                 <ListItem href="/pricing" title="Credits">
                   Understand how to configure our tools.
                 </ListItem>
-                <ListItem href="/docs/ranking-system" title="Ranking System">
+                <ListItem href="/docs" title="Ranking System">
                   Explore our ranking system.
                 </ListItem>
               </ul>
