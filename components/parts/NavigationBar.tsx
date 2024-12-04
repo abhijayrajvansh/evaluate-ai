@@ -63,7 +63,7 @@ export default function CustomNavigationMenu() {
                       href="/"
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
-                        Get Started
+                        Getting Started
                       </div>
                       <p className="text-sm leading-tight text-muted-foreground">
                         Analyze resumes, github projects, portfolios and
