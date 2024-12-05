@@ -44,7 +44,7 @@ const products: { title: string; href: string; description: string }[] = [
 
 export default function CustomNavigationMenu() {
   return (
-    <div className="flex items-center justify-between container mx-auto p-4">
+    <div className="flex items-center justify-between w-full p-4">
       <div className="cursor-pointer p-3">
         <h3 className="text-xl">evaluate.ai</h3>
       </div>
@@ -58,7 +58,7 @@ export default function CustomNavigationMenu() {
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
                   <NavigationMenuLink asChild>
-                    <a
+                    <Link
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                       href="/"
                     >
@@ -69,7 +69,7 @@ export default function CustomNavigationMenu() {
                         Analyze resumes, github projects, portfolios and
                         achievements to rank candidates.
                       </p>
-                    </a>
+                    </Link>
                   </NavigationMenuLink>
                 </li>
                 <ListItem href="/docs" title="Documentation">
@@ -118,7 +118,7 @@ export default function CustomNavigationMenu() {
           </NavigationMenuItem>
         </NavigationMenuList>
 
-        {/* auth options: login and signup */}
+        {/* auth options: check if authenticated or not */}
         {false ? (
           <>
             <Button asChild variant="outline" className="mx-5">
