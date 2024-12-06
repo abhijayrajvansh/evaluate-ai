@@ -15,7 +15,7 @@ const DashboardNavigationContainer = ({ children }: { children: React.ReactNode 
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
         </header>
-        <div className="p-6 space-y-6 max-w-[1280px] mx-auto">
+        <div className="p-6 space-y-6 w-[1280px] mx-auto">
         {children}
         </div>
       </SidebarInset>
