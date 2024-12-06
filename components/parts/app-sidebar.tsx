@@ -44,10 +44,6 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Github",
-          url: "/dashboard/github",
-        },
-        {
           title: "Resume",
           url: "#",
         },
@@ -55,6 +51,10 @@ const data = {
           title: "Objectives",
           url: "#",
         },
+        {
+          title: "Github",
+          url: "/dashboard/github",
+        }
       ],
     },
     {
