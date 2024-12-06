@@ -19,30 +19,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { cloneRepo } from "@/app/api/methods";
-
-interface AnalysisResults {
-  codeQuality?: {
-    message: string;
-    output: string;
-  };
-  commitMessages?: {
-    totalCommits: number;
-    wellWrittenCommits: number;
-    exampleCommits: string[];
-  };
-  projectStructure?: {
-    type: string;
-    name: string;
-  }[];
-  readme?: {
-    exists: boolean;
-    content?: string;
-  };
-  problemSolvingApproach?: {
-    file: string;
-    lines: number;
-  }[];
-}
+import { AnalysisResults } from "@/types";
 
 const AnalyzeGithubProjects = () => {
   const [repoUrl, setRepoUrl] = useState("");
