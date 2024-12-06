@@ -17,49 +17,51 @@ import {
   Brain,
   FolderGit,
 } from "lucide-react";
+import axios from "axios";
+import { cloneRepo } from "@/app/api/methods";
+
+interface AnalysisResults {
+  codeQuality?: {
+    message: string;
+    output: string;
+  };
+  commitMessages?: {
+    totalCommits: number;
+    wellWrittenCommits: number;
+    exampleCommits: string[];
+  };
+  projectStructure?: {
+    type: string;
+    name: string;
+  }[];
+  readme?: {
+    exists: boolean;
+    content?: string;
+  };
+  problemSolvingApproach?: {
+    file: string;
+    lines: number;
+  }[];
+}
 
 const AnalyzeGithubProjects = () => {
   const [repoUrl, setRepoUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<AnalysisResults | null>(null);
   const [error, setError] = useState("");
 
   const analyzeRepo = async () => {
     setLoading(true);
     setError("");
 
-    // using the /api/analyze-repo endpoint to analyze the repository
+    await cloneRepo(repoUrl);
+
     try {
-      const response = await fetch("/api/clone-repo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repoUrl }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.error);
-
-    } catch (err: any) {
-      setError(err.message);
-    }
-    finally {
-      setLoading(false);
-    }
-    try {
-      const response = await fetch("/api/analyze-repo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repo: "analysis-board" }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.error);
-
-      setResults(data.analysis);
-    } catch (err: any) {
-      setError(err.message);
+      const response = await axios.get("/api/analyze-repo");
+      setResults(response.data.analysis);
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -67,21 +69,20 @@ const AnalyzeGithubProjects = () => {
 
   return (
     <DashboardNavigationContainer>
-
-        <h2 className="text-3xl font-bold tracking-tight">
-          Github Project Analysis
-        </h2>
-        <div className="flex gap-4 mt-5 w-[400px]">
-          <Input
-            placeholder="enter repository url"
-            value={repoUrl}
-            onChange={(e) => setRepoUrl(e.target.value)}
-          />
-          <Button onClick={analyzeRepo} disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Analyze
-          </Button>
-        </div>
+      <h2 className="text-3xl font-bold tracking-tight">
+        Github Project Analysis
+      </h2>
+      <div className="flex gap-4 mt-5 w-[400px]">
+        <Input
+          placeholder="enter repository url"
+          value={repoUrl}
+          onChange={(e) => setRepoUrl(e.target.value)}
+        />
+        <Button onClick={analyzeRepo} disabled={loading}>
+          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Analyze
+        </Button>
+      </div>
 
       {error && (
         <Alert variant="destructive">
@@ -154,7 +155,7 @@ const AnalyzeGithubProjects = () => {
             <CardContent>
               {Array.isArray(results.projectStructure) && (
                 <div className="space-y-2">
-                  {results.projectStructure.map((item: any, i: number) => (
+                  {results.projectStructure.map((item, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <Badge
                         variant={
@@ -211,16 +212,14 @@ const AnalyzeGithubProjects = () => {
             <CardContent>
               {Array.isArray(results.problemSolvingApproach) && (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {results.problemSolvingApproach.map(
-                    (file: any, i: number) => (
-                      <div key={i} className="rounded-lg border p-4">
-                        <p className="font-medium">{file.file}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {file.lines} lines of code
-                        </p>
-                      </div>
-                    )
-                  )}
+                  {results.problemSolvingApproach.map((file, i) => (
+                    <div key={i} className="rounded-lg border p-4">
+                      <p className="font-medium">{file.file}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {file.lines} lines of code
+                      </p>
+                    </div>
+                  ))}
                 </div>
               )}
             </CardContent>

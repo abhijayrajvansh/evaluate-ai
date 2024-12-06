@@ -28,11 +28,9 @@ type AnalysisResults = {
   problemSolvingApproach?: { file: string; lines: number }[] | string;
 };
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    let { repoName } = await request.json();
-    if (!repoName) repoName = '';
-
+    const repoName = '';
     const analysisDir = path.resolve(process.cwd(), './analysis-board', repoName);
     
     // check if the repository exists or not
