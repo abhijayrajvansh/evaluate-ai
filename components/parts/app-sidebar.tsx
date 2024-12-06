@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
+                    <SidebarMenuButton 
                       asChild
                       // isActive={pathname === item.url ? true : false}
                       className={`hover:bg-white ${pathname === item.url ? "bg-white shadow-sm" : ""}`}

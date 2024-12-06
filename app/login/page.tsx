@@ -1,8 +1,9 @@
-import React from 'react'
-import Login from '@/components/pages/Login'
+import { LoginForm } from "@/components/login-form"
 
-const page = () => {
-  return <Login />
+export default function Page() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center px-4">
+      <LoginForm />
+    </div>
+  )
 }
-
-export default page
