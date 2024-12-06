@@ -8,4 +8,4 @@ const MobileViewWarning = () => {
   )
 }
 
-export default MobileViewWarning
+export default MobileViewWarning;

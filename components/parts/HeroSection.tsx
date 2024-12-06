@@ -5,7 +5,7 @@ import Link from "next/link";
 const HeroSection = () => {
   return (
     <>
-      <section className="py-20 text-center h-[90vh] flex items-center justify-center">
+      <section>
         <div>
           <h2 className="text-6xl font-semibold font-sans leading-tight">
             Evaluate and Discover Top Talent <br /> Effortlessly!
@@ -21,7 +21,7 @@ const HeroSection = () => {
           <Button asChild className="mt-10">
             <Link href={"/signup"}>Try for Free</Link>
           </Button>
-          <p className="text-sm mt-2 text-black/70">
+          <p className="text-sm mt-3 text-black/70">
             free credits available, no credit card required.
           </p>
         </div>

@@ -1,14 +1,12 @@
-"use client";
-
 import React from "react";
 import DashboardNavigationContainer from "../parts/DashboardNavigationContainer";
 
-const Dashboard = () => {
+const AnanlyzeGithubProfiles = () => {
   return (
     <DashboardNavigationContainer>
-      <p className="p-4">dashboard</p>
+      <div className="p-4">AnanlyzeGithubProfiles</div>
     </DashboardNavigationContainer>
-  )
+  );
 };
 
-export default Dashboard;
+export default AnanlyzeGithubProfiles;
