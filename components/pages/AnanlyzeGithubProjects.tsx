@@ -31,7 +31,14 @@ const AnalyzeGithubProjects = () => {
     setLoading(true);
     setError("");
 
-    await cloneRepo(repoUrl);
+    try {
+      await cloneRepo(repoUrl);
+    } catch (err) {
+      const error = err as Error;
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await axios.get("/api/analyze-repo");
@@ -49,16 +56,19 @@ const AnalyzeGithubProjects = () => {
       <h2 className="text-3xl font-bold tracking-tight">
         Github Project Analysis
       </h2>
+      <div>
       <div className="flex gap-4 mt-5 w-[400px]">
         <Input
           placeholder="enter repository url"
           value={repoUrl}
           onChange={(e) => setRepoUrl(e.target.value)}
         />
-        <Button onClick={analyzeRepo} disabled={loading}>
+        <Button onClick={analyzeRepo} disabled={loading ? true : false}>
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Analyze
         </Button>
+      </div>
+      {!results && <p className="text-xs text-gray-500 mt-3">Add a project and click on analyze to generate report.</p>}
       </div>
 
       {error && (
