@@ -58,7 +58,7 @@ const data = {
       ],
     },
     {
-      title: "Filter Seperate Projects",
+      title: "Analyze Seperate Projects",
       url: "#",
       items: [
         {
