@@ -62,7 +62,7 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Projects",
+          title: "Code Quality",
           url: "/dashboard/projects",
         },
       ],
