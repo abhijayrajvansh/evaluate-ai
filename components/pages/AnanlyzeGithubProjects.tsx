@@ -18,7 +18,7 @@ import {
   FolderGit,
 } from "lucide-react";
 import axios from "axios";
-import { cloneRepo } from "@/app/api/methods";
+import { cloneRepo, sanitizeJunk } from "@/app/api/methods";
 import { AnalysisResults } from "@/types";
 
 const AnalyzeGithubProjects = () => {
@@ -32,6 +32,7 @@ const AnalyzeGithubProjects = () => {
     setError("");
 
     try {
+      await sanitizeJunk();
       await cloneRepo(repoUrl);
     } catch (err) {
       const error = err as Error;
@@ -132,7 +133,7 @@ const AnalyzeGithubProjects = () => {
           </Card>
 
           {/* Project Structure Card */}
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FolderTree className="h-5 w-5" />
@@ -157,7 +158,7 @@ const AnalyzeGithubProjects = () => {
                 </div>
               )}
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Documentation Card */}
           <Card>
