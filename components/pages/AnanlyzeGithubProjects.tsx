@@ -54,7 +54,7 @@ const AnalyzeGithubProjects = () => {
   return (
     <DashboardNavigationContainer>
       <h2 className="text-3xl font-bold tracking-tight">
-        Github Project Analysis
+        Code Quality Analysis
       </h2>
       <div>
       <div className="flex gap-4 mt-5 w-[400px]">
@@ -84,7 +84,7 @@ const AnalyzeGithubProjects = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileCode className="h-5 w-5" />
-                Code Quality
+                Linting & Errors
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -102,7 +102,7 @@ const AnalyzeGithubProjects = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FolderGit className="h-5 w-5" />
-                Commit Analysis
+                Total Commit 
               </CardTitle>
             </CardHeader>
             <CardContent>
