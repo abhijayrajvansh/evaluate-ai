@@ -10,6 +10,10 @@ async function seed() {
   console.log("🌱 Seeding completed successfully!");
 }
 
-seed().catch((error) => {
+seed()
+.catch((error) => {
   console.error("❌ Seeding failed:", error);
-});
+})
+.finally(() => {
+  process.exit(1);
+})

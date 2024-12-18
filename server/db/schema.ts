@@ -16,7 +16,9 @@ import { type AdapterAccount } from "next-auth/adapters";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `evaluateai_${name}`);
+
+// change prefix from "rajvansh-js" to your project name
+export const createTable = pgTableCreator((name) => `evaluate-ai_${name}`);
 
 export const posts = createTable(
   "post",
