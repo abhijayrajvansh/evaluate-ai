@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
-import { DATABASE_URL, NODE_ENV } from "@/constants";
+import { DATABASE_URL, NODE_ENV } from "@/config";
 
 
 /**
