@@ -1,11 +1,11 @@
 {
-  "id": "26eefd53-ceaf-4a6e-b426-5518efd9e2a0",
+  "id": "a37dff0b-f9a4-4c04-b01f-addebc64e683",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.rajvansh-js_account": {
-      "name": "rajvansh-js_account",
+    "public.evaluate-ai_account": {
+      "name": "evaluate-ai_account",
       "schema": "",
       "columns": {
         "user_id": {
@@ -93,10 +93,10 @@
         }
       },
       "foreignKeys": {
-        "rajvansh-js_account_user_id_rajvansh-js_user_id_fk": {
-          "name": "rajvansh-js_account_user_id_rajvansh-js_user_id_fk",
-          "tableFrom": "rajvansh-js_account",
-          "tableTo": "rajvansh-js_user",
+        "evaluate-ai_account_user_id_evaluate-ai_user_id_fk": {
+          "name": "evaluate-ai_account_user_id_evaluate-ai_user_id_fk",
+          "tableFrom": "evaluate-ai_account",
+          "tableTo": "evaluate-ai_user",
           "columnsFrom": [
             "user_id"
           ],
@@ -108,8 +108,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "rajvansh-js_account_provider_provider_account_id_pk": {
-          "name": "rajvansh-js_account_provider_provider_account_id_pk",
+        "evaluate-ai_account_provider_provider_account_id_pk": {
+          "name": "evaluate-ai_account_provider_provider_account_id_pk",
           "columns": [
             "provider",
             "provider_account_id"
@@ -118,8 +118,8 @@
       },
       "uniqueConstraints": {}
     },
-    "public.rajvansh-js_post": {
-      "name": "rajvansh-js_post",
+    "public.evaluate-ai_post": {
+      "name": "evaluate-ai_post",
       "schema": "",
       "columns": {
         "id": {
@@ -129,7 +129,7 @@
           "notNull": true,
           "identity": {
             "type": "byDefault",
-            "name": "rajvansh-js_post_id_seq",
+            "name": "evaluate-ai_post_id_seq",
             "schema": "public",
             "increment": "1",
             "startWith": "1",
@@ -198,10 +198,10 @@
         }
       },
       "foreignKeys": {
-        "rajvansh-js_post_created_by_rajvansh-js_user_id_fk": {
-          "name": "rajvansh-js_post_created_by_rajvansh-js_user_id_fk",
-          "tableFrom": "rajvansh-js_post",
-          "tableTo": "rajvansh-js_user",
+        "evaluate-ai_post_created_by_evaluate-ai_user_id_fk": {
+          "name": "evaluate-ai_post_created_by_evaluate-ai_user_id_fk",
+          "tableFrom": "evaluate-ai_post",
+          "tableTo": "evaluate-ai_user",
           "columnsFrom": [
             "created_by"
           ],
@@ -215,8 +215,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.rajvansh-js_session": {
-      "name": "rajvansh-js_session",
+    "public.evaluate-ai_session": {
+      "name": "evaluate-ai_session",
       "schema": "",
       "columns": {
         "session_token": {
@@ -256,10 +256,10 @@
         }
       },
       "foreignKeys": {
-        "rajvansh-js_session_user_id_rajvansh-js_user_id_fk": {
-          "name": "rajvansh-js_session_user_id_rajvansh-js_user_id_fk",
-          "tableFrom": "rajvansh-js_session",
-          "tableTo": "rajvansh-js_user",
+        "evaluate-ai_session_user_id_evaluate-ai_user_id_fk": {
+          "name": "evaluate-ai_session_user_id_evaluate-ai_user_id_fk",
+          "tableFrom": "evaluate-ai_session",
+          "tableTo": "evaluate-ai_user",
           "columnsFrom": [
             "user_id"
           ],
@@ -273,8 +273,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.rajvansh-js_user": {
-      "name": "rajvansh-js_user",
+    "public.evaluate-ai_user": {
+      "name": "evaluate-ai_user",
       "schema": "",
       "columns": {
         "id": {
@@ -314,8 +314,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.rajvansh-js_verification_token": {
-      "name": "rajvansh-js_verification_token",
+    "public.evaluate-ai_verification_token": {
+      "name": "evaluate-ai_verification_token",
       "schema": "",
       "columns": {
         "identifier": {
@@ -340,8 +340,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "rajvansh-js_verification_token_identifier_token_pk": {
-          "name": "rajvansh-js_verification_token_identifier_token_pk",
+        "evaluate-ai_verification_token_identifier_token_pk": {
+          "name": "evaluate-ai_verification_token_identifier_token_pk",
           "columns": [
             "identifier",
             "token"
