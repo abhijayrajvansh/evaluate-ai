@@ -30,11 +30,12 @@ export const projectRouter = createTRPCRouter({
       execSync(startContainerCommand);
 
       try {
-        // Retry logic to ensure the container starts
-        console.log(`Waiting for container ${containerName} to start...`);
-        const maxRetries = 10; // Number of retries
-        const retryInterval = 1000; // Interval in ms between retries
+        // Retry logic: a mechanism to ensure the container starts before proceeding
+        deb(containerName, 'waiting for container to start');
+        
         let containerStatus = "exited";
+        const retryIntervalSecond = 2; 
+        const maxRetries = 3; 
 
         for (let attempt = 0; attempt < maxRetries; attempt++) {
           containerStatus = execSync(
@@ -47,9 +48,9 @@ export const projectRouter = createTRPCRouter({
             break;
           }
           console.log(
-            `Attempt ${attempt + 1}: Container status is '${containerStatus}'. Retrying in ${retryInterval}ms...`,
+            `Attempt ${attempt + 1}: Container status is '${containerStatus}'. Retrying in ${retryIntervalSecond}s...`,
           );
-          await new Promise((resolve) => setTimeout(resolve, retryInterval));
+          await new Promise((resolve) => setTimeout(resolve, retryIntervalSecond * 1000));
         }
 
         if (containerStatus !== "running") {
