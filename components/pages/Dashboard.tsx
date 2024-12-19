@@ -1,6 +1,6 @@
 'use client'
 
-import { api } from '@/trpc/react';  // Changed from '@/trpc/server' to '@/utils/api'
+import { api } from '@/trpc/react';  
 import React, { useState } from 'react';
 
 const Dashboard = () => {

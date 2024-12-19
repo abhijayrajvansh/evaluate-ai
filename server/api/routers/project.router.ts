@@ -26,30 +26,35 @@ export const projectRouter = createTRPCRouter({
       const workspacePath = `/app/workspace`;
       const startContainerCommand = `docker run -d --name ${containerName} -v /tmp:/tmp eslint-runner`;
 
-      deb(containerName, 'starting docker container');
-      execSync(startContainerCommand);
-
+      
+      // initial spin up of the container
+      deb(containerName, 'initializing isolated docker container');
       try {
-        // Retry logic: a mechanism to ensure the container starts before proceeding
-        deb(containerName, 'waiting for container to start');
-        
+        const startContainerCommand = `docker run -d --name ${containerName} -v /tmp:/tmp eslint-runner`;
+        execSync(startContainerCommand);
+      } catch (err) {
+        throw new Error(`Failed to start container: ${(err as Error).message}`);
+      }
+
+      
+      // a retry mechanism to ensure the container has starts before proceeding
+      deb(containerName, 'waiting for container status to be running');
+      try {
         let containerStatus = "exited";
         const retryIntervalSecond = 2; 
         const maxRetries = 3; 
 
         for (let attempt = 0; attempt < maxRetries; attempt++) {
-          containerStatus = execSync(
-            `docker inspect -f '{{.State.Status}}' ${containerName}`,
-          )
-            .toString()
-            .trim();
+          const checkContainerStatus = `docker inspect --format='{{.State.Status}}' ${containerName}`;
+          containerStatus = execSync(checkContainerStatus).toString().trim();
+
           if (containerStatus === "running") {
             console.log(`Container ${containerName} is running.`);
             break;
           }
-          console.log(
-            `Attempt ${attempt + 1}: Container status is '${containerStatus}'. Retrying in ${retryIntervalSecond}s...`,
-          );
+
+          console.log(`Attempt ${attempt + 1}: Container status is '${containerStatus}'. Retrying again in ${retryIntervalSecond}s...`);
+
           await new Promise((resolve) => setTimeout(resolve, retryIntervalSecond * 1000));
         }
 
